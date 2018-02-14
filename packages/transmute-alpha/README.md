@@ -14,7 +14,7 @@ docker-compose up
 
 Next, you will use the CLI to create smart contracts and publish packages using IPFS and firebase. 
 
-This demo requires you to regsiter an email and password, in order to demonstrate how the transmute framework can be used to integrate with existing backends.
+This demo requires you to register an email and password, in order to demonstrate how the transmute framework can be used to integrate with existing backends.
 
 ```
 npm run prep

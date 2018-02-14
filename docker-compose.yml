@@ -1,15 +1,15 @@
 version: '2'
 services:
 
-  testrpc:
+  ganache-cli:
     environment:
       - RPC_HOST=testrpc
-    build: ./testrpc
+    build: ./setup/docker/ganache-cli
     ports:
       - "8545:8545"
 
   ipfs:
-    build: ./ipfs
+    build: ./setup/docker/ipfs
     ports:
      - "8080:8080"
      - "5001:5001"

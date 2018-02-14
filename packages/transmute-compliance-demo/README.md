@@ -12,9 +12,9 @@ Install lerna globally: `npm i lerna -g`.
 
 Before we get started, we'll want to setup Minikube, Ganache CLI, and IPFS.
 
-- [Setting up minikube](https://github.com/transmute-industries/transmute/blob/master/tutorials/minikube/README.md)
-- [Setting up ganache cli](https://github.com/transmute-industries/transmute/blob/master/tutorials/minikube/ganache-cli/README.md)
-- [Setting up ipfs](https://github.com/transmute-industries/transmute/tree/master/tutorials/minikube/ipfs/README.md)
+- [Setting up minikube](https://github.com/transmute-industries/transmute/blob/master/tutorials/setup/minikube/README.md)
+- [Setting up ganache cli](https://github.com/transmute-industries/transmute/blob/master/tutorials/setup/minikube/ganache-cli/README.md)
+- [Setting up ipfs](https://github.com/transmute-industries/transmute/tree/master/tutorials/setup/minikube/ipfs/README.md)
 
 Next, we'll need to deploy some smart contracts and link them to the transmute framework.
 
