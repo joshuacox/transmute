@@ -27,7 +27,7 @@
     "prebuild": "rimraf dist",
     "build": "tsc && tsc --module commonjs --outDir dist/lib && rollup -c rollup.config.ts && typedoc --out dist/docs --target es6 --theme minimal --mode file src && cp -R ./src/contracts ./dist/contracts",
     "start": "tsc -w & rollup -c rollup.config.ts -w",
-    "test": "jest --runInBand",
+    "test": "NODE_TLS_REJECT_UNAUTHORIZED=0 jest --runInBand --coverage --no-cache",
     "test:watch": "jest --watch",
     "test:prod": "npm run lint && npm run test -- --coverage --no-cache",
     "deploy-docs": "ts-node tools/gh-pages-publish",
@@ -36,8 +36,7 @@
     "semantic-release": "semantic-release pre && npm publish && semantic-release post",
     "semantic-release-prepare": "ts-node tools/semantic-release-prepare",
     "precommit": "lint-staged",
-    "contracts:generate": "npm run cleanup && cp -R ./node_modules/transmute-contracts/build/contracts ./src && node ./node_modules/soltsice/dist/soltsice.js ./src/contracts/ ./src/TransmuteContracts",
-    "contracts:regenerate": "lerna run contracts:migrate && lerna bootstrap && yarn run contracts:generate"
+    "contracts:generate": "npm run cleanup && cp -R ./node_modules/transmute-contracts/build/contracts ./src && node ./node_modules/soltsice/dist/soltsice.js ./src/contracts/ ./src/TransmuteContracts"
   },
   "lint-staged": {
     "{src,test}/**/*.ts": [
@@ -76,16 +75,7 @@
       "/dist/",
       "TransmuteContracts"
     ],
-    "coverageThreshold": {
-      "global": {
-        "statements": 90,
-        "branches": 80,
-        "lines": 90,
-        "functions": 85
-      }
-    },
-    "collectCoverage": true,
-    "mapCoverage": true
+    "collectCoverage": true
   },
   "devDependencies": {
     "@types/jest": "^21.1.9",

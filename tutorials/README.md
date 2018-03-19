@@ -1,9 +1,14 @@
 ## Minikube Setup
 
-- [Setting up Minikube](./minikube-setup/README.md)
-- [Setting up Ganache CLI](./minikube-setup/ganache-cli/README.md)
-- [Setting up IPFS](./minikube-setup/ipfs/README.md)
+- [Setting up Minikube](./minikube/README.md)
+- [Setting up Ganache CLI](./minikube/ganache-cli/README.md)
+- [Setting up IPFS](./minikube/ipfs/README.md)
 
 ## Demos
 
 - [Transmute Compliance Demo](../packages/transmute-compliance-demo)
+
+
+## Recommended Tools
+
+- [VS Code K8s Support](https://marketplace.visualstudio.com/items?itemName=ms-kubernetes-tools.vscode-kubernetes-tools)

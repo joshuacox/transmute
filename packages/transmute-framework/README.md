@@ -4,10 +4,14 @@ Ethereum Integration Middleware for JavaScript Developers.
 
 ### Commands:
 
-`npm run contracts:regenerate && npm run test`
+```
+lerna run --scope transmute-contracts contracts:migrate:ganache
+lerna run --scope transmute-framework contracts:generate
+```
 
-Useful when testing contacts. 
+Useful when testing contacts.
 
-### Special Thanks 
-- https://github.com/dbrainio/Soltsice
-- https://github.com/bitjson/typescript-starter
+### Special Thanks
+
+* https://github.com/dbrainio/Soltsice
+* https://github.com/bitjson/typescript-starter

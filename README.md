@@ -1,17 +1,51 @@
 # Transmute
 
-A Blockchain framework for Identity and Compliance.
+Open Source Blockchain Development Framework
 
 🚧 Pardon our mess as we upgrade to support kubernetes. 🚧
 
 🔥 DO NOT USE IN PRODUCTION 🔥
 
-### The transmute framework is a library for connecting off-chain data with on-chain smart contracts.
+We use lerna for code-splitting, learn more [here](https://github.com/lerna/lerna).
+
+### transmute-framework
+
+The transmute framework is a library for connecting off-chain data with on-chain smart contracts. Like ORM middleware for dapps. 
 
 This implementation is not optimized for cost, but for rapid prototyping. The framework is meant for developing proof of concepts quickly, and not currently ready for production use.
 
-With the framework come tutorials for managing ethereum depenencies with kubernetes locally or with cloud providers.
+### transmute-minikube
 
+Kubernetes help us run networked services like IPFS and Ethereum in an extenable manner. It also allows us to use helm charts to represent dapps. We provide tutorials and travis configs for using minikube for dapp development. 
+
+### transmute-crypto
+
+A wrapper around common cryptographic needs, such as Event Encryption, libsodium and wallets. NOT AUDITED YET.
+
+### transmute-contracts
+
+Transmute solidity contracts and a simple truffle setup.
+
+### transmute-adapters
+
+Adapters are simple middleware used by the framework to store objects. Encryption should be used before saving objects to adapters.
+
+
+### Setup Local Dev Env
+* [Setup Minikube](https://github.com/transmute-industries/transmute/tree/master/tutorials/minikube)
+* [Setup IPFS](https://github.com/transmute-industries/transmute/tree/master/tutorials/minikube/ipfs)
+* [Setup Ganache-CLI]
+
+```
+lerna bootstrap
+lerna run --scope transmute-contracts contracts:migrate:ganache
+lerna run --scope transmute-framework contracts:generate
+lerna run --scope transmute-crypto build
+lerna run --scope transmute-framework test
+```
+
+
+<!-- 
 ### Recommended Setup
 
 #### Note: Use npm with this project, yarn does not play nicely with lerna setup.
@@ -30,9 +64,9 @@ lerna run build --scope transmute-framework
 
 If you wish to run everything locally, you can use this minikube setup:
 
-* [Setup Minikube](https://github.com/transmute-industries/transmute/tree/master/tutorials/minikube-setup)
-* [Setup IPFS](https://github.com/transmute-industries/transmute/tree/master/tutorials/minikube-setup/ipfs)
-* [Setup Ganache-CLI](https://github.com/transmute-industries/transmute/tree/master/tutorials/minikube-setup/ganache-cli)
+* [Setup Minikube](https://github.com/transmute-industries/transmute/tree/master/tutorials/minikube)
+* [Setup IPFS](https://github.com/transmute-industries/transmute/tree/master/tutorials/minikube/ipfs)
+* [Setup Ganache-CLI](https://github.com/transmute-industries/transmute/tree/master/tutorials/minikube/ganache-cli)
 
 When using minikube, before running scripts, you will want to export these env vars:
 
@@ -60,4 +94,4 @@ To get started, navigate to the `transmute-compliance-demo` directory.
 cd packages/transmute-compliance-demo
 ```
 
-Follow the instructions in the [Compliance Demo Read Me](./packages/transmute-compliance-demo)
+Follow the instructions in the [Compliance Demo Read Me](./packages/transmute-compliance-demo) -->

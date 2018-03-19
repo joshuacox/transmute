@@ -1,11 +1,10 @@
 const adapter = require('./index');
 
+const transmuteConfig = require('./transmute-config.json')
+
 const tests = async () => {
-  const db = adapter.getStorage({
-    host: 'localhost',
-    port: 5001,
-    protocol: 'http'
-  });
+  const db = adapter.getStorage(transmuteConfig.minikube.ipfs.config);
+  
   let data1 = await adapter.setItem(db, { hello: 'world' });
   let data2 = await adapter.getItem(
     db,

@@ -1,29 +1,69 @@
-
 sudo: required
 dist: trusty
-language: node_js
 
-cache:
-  directories:
-  - $HOME/.yarn-cache
+env:
+- CHANGE_MINIKUBE_NONE_USER=true
 
-node_js:
-  - "8.4.0"
+before_script:
+- export CWD=$(pwd)
+- curl -Lo kubectl https://storage.googleapis.com/kubernetes-release/release/v1.9.0/bin/linux/amd64/kubectl && chmod +x kubectl && sudo mv kubectl /usr/local/bin/
+- curl -Lo minikube https://storage.googleapis.com/minikube/releases/latest/minikube-linux-amd64 && chmod +x minikube && sudo mv minikube /usr/local/bin/
+- sudo minikube start --vm-driver=none --kubernetes-version=v1.9.0
+- minikube update-context
+- JSONPATH='{range .items[*]}{@.metadata.name}:{range @.status.conditions[*]}{@.type}={@.status};{end}{end}'; until kubectl get nodes -o jsonpath="$JSONPATH" 2>&1 | grep -q "Ready=True"; do sleep 1; done
 
-before_install:
-  - sudo apt-get update -qq
-  - sudo apt-get install software-properties-common -y -qq
-  - wget "https://dist.ipfs.io/go-ipfs/v0.4.9/go-ipfs_v0.4.9_linux-amd64.tar.gz" -O /tmp/ipfs.tar.gz
-  - pushd . && cd $HOME/bin && tar -xzvf /tmp/ipfs.tar.gz && popd
-  - export PATH="$HOME/bin/go-ipfs:$PATH"
-  - ipfs init
-  - ipfs daemon &
-  - sleep 5
-  - npm install -g yarn --cache-min 999999999 lerna ethereumjs-testrpc truffle
-  - testrpc >> /dev/null &
+- sudo apt-get install jq build-essential libncurses5-dev libslang2-dev gettext zlib1g-dev libselinux1-dev debhelper lsb-release pkg-config po-debconf autoconf automake autopoint libtool python2.7-dev
+- cd /tmp
+- wget https://www.kernel.org/pub/linux/utils/util-linux/v2.25/util-linux-2.25.tar.gz
+- tar -xvf util-linux-2.25.tar.gz
+- cd util-linux-2.25
+- ./configure
+- make nsenter
+- sudo cp nsenter /usr/local/bin
+- cd $CWD
 
-install:
-  - lerna bootstrap
-  
+- curl https://raw.githubusercontent.com/kubernetes/helm/master/scripts/get | bash
+- helm init --force-upgrade --tiller-image powerhome/tiller:git-3b22ecd
+
+- node -v
+- npm -v
+
+- npm install -g codecov lerna@2.9.0 truffle@4.0.1 
+
+- lerna -v
+- truffle version
+
+- sleep 60
+- kubectl cluster-info
+- nsenter --version
+- minikube addons enable ingress
+
 script:
-  - ./travis.sh
+- helm install stable/kong --name mini-kong
+- helm install stable/ipfs --name mini-ipfs
+- helm install ./tutorials/minikube/kong-ganache/ganache-cli --name=mini-ganache
+- sleep 180
+
+- kubectl get services
+
+- echo "\n" | sudo tee -a /etc/hosts
+- echo "$(minikube ip)  transmute.minikube" | sudo tee -a /etc/hosts
+- echo "$(minikube ip)  ipfs.transmute.minikube" | sudo tee -a /etc/hosts
+- echo "$(minikube ip)  ganache.transmute.minikube" | sudo tee -a /etc/hosts
+
+- cat /etc/hosts
+
+- export KONG_ADMIN_URL=$(minikube service mini-kong-kong-admin --url | sed 's,http://,https://,g')
+- export KONG_PROXY_URL=$(minikube service mini-kong-kong-proxy --url | sed 's,http://,https://,g')
+- export KONG_PROXY_PORT=$(kubectl get service mini-kong-kong-proxy -o json | jq -r '.spec.ports[0].nodePort')
+
+- ./scripts/configure-kong-ipfs.sh
+- ./scripts/configure-kong-ganache.sh
+- ./scripts/configure-framework-kong.sh 
+
+- lerna bootstrap
+- lerna run --scope transmute-contracts contracts:migrate:ganache
+- lerna run --scope transmute-framework contracts:generate
+- lerna run --scope transmute-crypto build
+- lerna run --scope transmute-framework test
+- lerna run --scope transmute-framework test:coverage:report

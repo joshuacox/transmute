@@ -13,7 +13,9 @@ import {
   getWeb3FromWalletWithPrivateKey
 } from '../__mocks__/getWeb3'
 
-const RPC_HOST = 'http://localhost:8545'
+const transmuteConfig = require('../transmute-config.json')
+
+const RPC_HOST = transmuteConfig.minikube.web3.providerUrl
 
 /**
  * web3 tests
