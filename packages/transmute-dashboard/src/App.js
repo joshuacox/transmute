@@ -3,11 +3,11 @@ import { Route } from 'react-router';
 import { SecureRoute, ImplicitCallback } from '@okta/okta-react';
 
 import config from './app.config';
-import Header from './Components/Header';
-import HomePage from './Components/Home';
-import RegistrationForm from './Components/Registration';
-import LoginPage from './Components/Login';
-import ProfilePage from './Components/Profile';
+import Header from './components/Header';
+import HomePage from './components/Home';
+import RegistrationForm from './components/Registration';
+import LoginPage from './components/Login';
+import ProfilePage from './components/Profile';
 
 export default class App extends Component {
   render() {

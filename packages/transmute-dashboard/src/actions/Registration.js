@@ -1,14 +1,15 @@
+import { Constants } from '../constants'
 import axios from 'axios';
 import { loginApiCall } from './Login';
 import config from '../app.config';
 
 export const registrationError = (error) => ({
-  type: 'REGISTRATION_ERROR',
+  type: Constants.REGISTRATION_ERROR,
   payload: error
 });
 
 export const registrationSuccess = () => ({
-  type: 'REGISTRATION_SUCCESS'
+  type: Constants.REGISTRATION_SUCCESS
 });
 
 export const registrationApiCall = (oktaAuth, data) => {

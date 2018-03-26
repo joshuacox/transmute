@@ -1,14 +1,16 @@
+import { Constants } from '../constants'
+
 export const logout = () => ({
-  type: 'LOGOUT'
+  type: Constants.LOGOUT
 });
 
 export const loginError = (error) => ({
-  type: 'LOGIN_ERROR',
+  type: Constants.LOGIN_ERROR,
   payload: error
 });
 
 export const loginSuccess = (data) => ({
-  type: 'LOGIN_SUCCESS',
+  type: Constants.LOGIN_SUCCESS,
   payload: data
 });
 

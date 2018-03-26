@@ -1,12 +1,13 @@
+import { Constants } from '../constants'
 import axios from "axios/index";
 
 export const changePasswordError = (error) => ({
-  type: 'CHANGE_PASSWORD_ERROR',
+  type: Constants.CHANGE_PASSWORD_ERROR,
   payload: error
 });
 
 export const changePasswordSuccess = (data) => ({
-  type: 'CHANGE_PASSWORD_SUCCESS',
+  type: Constants.CHANGE_PASSWORD_SUCCESS,
   payload: data
 });
 

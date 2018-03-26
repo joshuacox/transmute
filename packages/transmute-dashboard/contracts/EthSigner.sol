@@ -44,25 +44,21 @@ contract EthSigner {
     );
 
     function EthSigner() public {
-        owner = msg.sender;
+        owner = msg.sender; 
     }
 
-    function addUser(address _address, bytes32 _firstName, bytes32 _lastName, bytes32 _email) public {
-        if (msg.sender != owner) {
-            // "401 Unauthorized"
-            revert();
-        }
-        if (userIndex[_address].email.length != 0) {
+    function addUser(bytes32 _firstName, bytes32 _lastName, bytes32 _email) public {
+        if (userIndex[msg.sender].email.length != 0) {
             // "409 Conflict"
             revert();
         }
 
-        User storage user = userIndex[_address];
+        User storage user = userIndex[msg.sender];
         user.firstName = _firstName;
         user.lastName = _lastName;
         user.email = _email;
 
-        emit UserAdded(_address, _email);
+        emit UserAdded(msg.sender, _email);
     }
 
     function getUser(address _address) public view returns (bytes32, bytes32, bytes32, bytes32, bytes32[]) {
