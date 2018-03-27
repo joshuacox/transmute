@@ -1,9 +1,9 @@
 import React, { Component } from 'react';
 
-class LoginPage extends Component {
+class DebugForm extends Component {
   render() {
     return (<span>Stub</span>)
   }
 };
 
-export default withAuth(LoginPage);
+export default DebugForm;

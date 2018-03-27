@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Route } from 'react-router';
+import { Route } from 'react-router-dom';
 import { SecureRoute, ImplicitCallback } from '@okta/okta-react';
 
 import config from './app.config';
@@ -8,6 +8,7 @@ import HomePage from './components/Home';
 import RegistrationForm from './components/Registration';
 import LoginPage from './components/Login';
 import ProfilePage from './components/Profile';
+import DebugForm from './components/Debug';
 
 export default class App extends Component {
   render() {
@@ -17,13 +18,12 @@ export default class App extends Component {
         <main role="main">
           <div className="container">
             <main>
-              {/* <SecureRoute path="/" exact={true} component={HomePage} /> */}
-              <Route path="/" exact={true} component={HomePage} />
+              <SecureRoute path="/" exact={true} component={HomePage} />
               <Route path="/implicit/callback" component={ImplicitCallback} />
               <Route path="/login" render={() => <LoginPage baseUrl={config.url} />} />
               <Route path="/register" component={RegistrationForm} />
-              {/* <SecureRoute path="/profile" component={ProfilePage} /> */}
-              <Route path="/profile" component={ProfilePage} />
+              <SecureRoute path="/profile" component={ProfilePage} />
+              <SecureRoute path="/debug" component={DebugForm} />
             </main>
           </div>
         </main>

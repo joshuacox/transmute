@@ -1,4 +1,4 @@
-import { web3 } from 'env'
+import { getWeb3 } from './web3'
 
 const contract = require('truffle-contract')
 
@@ -9,17 +9,18 @@ ethSigner.setProvider(web3.currentProvider)
 
 // HELPER METHODS
 
-export const addUser = (_firstName, _lastName, _email, _fromAddress, _callback) => {
+export const addUser = async (_firstName, _lastName, _email, _fromAddress, _callback) => {
+  let web3 = await getWeb3();
 }
 
-export const getUser = (_address, _fromAddress, _callback) => {
+export const getUser = async (_address, _fromAddress, _callback) => {
 }
 
-export const addSignature = (_signatureHash, _callback) => {
+export const addSignature = async (_signatureHash, _callback) => {
 }
 
-export const createDocument = (_documentHash, _recipientAddress, _fromAddress, _callback) => {
+export const createDocument = async (_documentHash, _recipientAddress, _fromAddress, _callback) => {
 }
 
-export const signDocument = (_documentHash, _fromAddress, _callback) => {
+export const signDocument = async (_documentHash, _fromAddress, _callback) => {
 }

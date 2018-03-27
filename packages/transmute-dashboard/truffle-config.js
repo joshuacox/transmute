@@ -1,4 +1,14 @@
+const Web3 = require('web3');
+const config = require('./config');
+
 module.exports = {
-  // See <http://truffleframework.com/docs/advanced/configuration>
-  // to customize your Truffle configuration!
+  migrations_directory: './migrations',
+  networks: {
+    development: {
+      provider: new Web3.providers.HttpProvider(
+        config.web3Config.providerUrl
+      ),
+      network_id: '*' // Match any network id
+    },
+  }
 };

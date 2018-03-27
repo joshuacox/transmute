@@ -1,4 +1,5 @@
 import React from 'react';
+import { withAuth } from '@okta/okta-react';
 
 class HomePage extends React.Component {
   render() {
@@ -10,4 +11,4 @@ class HomePage extends React.Component {
   }
 }
 
-export default HomePage;
+export default withAuth(HomePage);

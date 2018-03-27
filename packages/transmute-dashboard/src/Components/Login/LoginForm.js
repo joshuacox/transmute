@@ -13,8 +13,8 @@ class LoginForm extends React.Component {
     super(props);
     this.state = {
       error: null,
-      email: '',
-      password: ''
+      email: 'eolszewski@gmail.com',
+      password: 'P1ckles!'
     }
 
     this.oktaAuth = new OktaAuth({ url: props.baseUrl });
@@ -32,10 +32,11 @@ class LoginForm extends React.Component {
       [name]: event.target.value,
     });
   };
-
+  
   render() {
     if (this.props.sessionToken) {
       this.props.auth.redirect({ sessionToken: this.props.sessionToken });
+      return null;
     }
 
     const errorMessage = this.props.error ?

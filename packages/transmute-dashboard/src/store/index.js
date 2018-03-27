@@ -1,13 +1,13 @@
 import { createStore, applyMiddleware, compose } from 'redux';
 import logger from 'redux-logger';
+import { combineReducers } from 'redux';
 import thunk from 'redux-thunk';
-import createHistory from 'history/createBrowserHistory';
-import reducers from '../reducers/index';
-import { routerMiddleware } from 'react-router-redux';
-
-export const history = createHistory();
-const middleware = routerMiddleware(history);
+import { userReducer } from '../reducers/index';
+import transmute from './transmute';
+import { reducer } from './transmute/reducer';
 
 export const store = createStore(
-  reducers, compose(applyMiddleware(logger, middleware, thunk))
+  combineReducers({ transmute: reducer, user: userReducer }), compose(applyMiddleware(logger, thunk))
 );
+
+transmute.init(store);

@@ -2,133 +2,104 @@ pragma solidity ^0.4.17;
 
 contract EthSigner {
 
+    struct Document {
+        address[] signatories;
+        bytes32[] signatures;
+    }
+
     struct User {
-        bytes32 firstName;
-        bytes32 lastName;
-        bytes32 email;
-        bytes32 signatureHash;
+        bytes32 signature;
         bytes32[] documents;
     }
 
-    struct Document {
-        uint created;
-        address sender;
-        address recipient;
-        uint senderSigned;
-        uint recipientSigned;
-    }
-
-    address public owner;
     mapping (address => User) userIndex;
     mapping (bytes32 => Document) documentIndex;
 
-    event UserAdded(
-      address indexed _address,
-      bytes32 indexed _email
-    );
-
     event SignatureAdded(
       address indexed _address,
-      bytes32 indexed _signatureHash
+      bytes32 indexed _signature
     );
 
     event DocumentCreated(
-      bytes32 indexed _documentHash,
-      address indexed _sender,
-      address indexed _recipient
+      bytes32 indexed _document,
+      address[] indexed signatories
     );
 
     event DocumentSigned(
-      bytes32 indexed _documentHash,
-      address indexed _signer
+      bytes32 indexed _document,
+      address indexed _signator
     );
 
-    function EthSigner() public {
-        owner = msg.sender; 
-    }
+    function EthSigner() public {}
 
-    function addUser(bytes32 _firstName, bytes32 _lastName, bytes32 _email) public {
-        if (userIndex[msg.sender].email.length != 0) {
-            // "409 Conflict"
-            revert();
-        }
-
-        User storage user = userIndex[msg.sender];
-        user.firstName = _firstName;
-        user.lastName = _lastName;
-        user.email = _email;
-
-        emit UserAdded(msg.sender, _email);
-    }
-
-    function getUser(address _address) public view returns (bytes32, bytes32, bytes32, bytes32, bytes32[]) {
-        if (userIndex[_address].email.length == 0) {
-            // "404 Not Found"
-            revert();
-        }
-        return (
-            userIndex[_address].firstName,
-            userIndex[_address].lastName,
-            userIndex[_address].email,
-            userIndex[_address].signatureHash,
-            userIndex[_address].documents
-        );
-    }
-
-    function addSignature(bytes32 _signatureHash) public {
-        if (userIndex[msg.sender].email.length == 0) {
-            // "404 Not Found"
-            revert();
-        }
-        if (userIndex[msg.sender].signatureHash.length != 0) {
+    function addSignature(bytes32 _signature) public {
+        if (userIndex[msg.sender].signature.length != 0) {
             // "409 Conflict"
             revert();
         }
         
         User storage user = userIndex[msg.sender];
-        user.signatureHash = _signatureHash;
+        user.signature = _signature;
         
-        emit SignatureAdded(msg.sender, _signatureHash);
+        emit SignatureAdded(msg.sender, _signature);
     }
 
-    function createDocument(bytes32 _documentHash, address _recipient) public {
-        if (userIndex[msg.sender].email.length == 0) {
+    function getSignature(address _address) public view returns (bytes32) {
+        if (userIndex[_address].signature.length == 0) {
+            revert();
+        }
+        return userIndex[_address].signature;
+    }
+
+    function getDocuments(address _address) public view returns (bytes32[]) {
+        if (userIndex[_address].signature.length == 0) {
             // "404 Not Found"
             revert();
         }
-        if (userIndex[_recipient].email.length == 0) {
-            // "404 Not Found"
-            revert();
+        return userIndex[_address].documents;
+    }
+
+    function createDocument(bytes32 _documentHash, address[] _signatories) public {
+        documentIndex[_documentHash] = Document(_signatories, new bytes32[](0));
+
+        // Waste of gas, should be storing these things offchain
+        for (uint i = 0; i < _signatories.length; i++) {
+            if (userIndex[msg.sender].signature.length == 0) {
+                // "404 Not Found"
+                revert();
+            }
+            User storage user = userIndex[_signatories[i]];
+            user.documents.push(_documentHash);
         }
-        
-        documentIndex[_documentHash] = Document(now, msg.sender, _recipient, 0, 0);
-        
-        User storage sender = userIndex[msg.sender];
-        sender.documents.push(_documentHash);
 
-        User storage recipient = userIndex[_recipient];
-        recipient.documents.push(_documentHash);
-
-        emit DocumentCreated(_documentHash, msg.sender, _recipient);
+        emit DocumentCreated(_documentHash, _signatories);
     }
 
     function signDocument(bytes32 _documentHash) public {
-        if (documentIndex[_documentHash].created == 0) {
+        if (documentIndex[_documentHash].signatories.length == 0) {
             // "404 Not Found"
+            revert();
+        }
+        if (userIndex[msg.sender].signature.length == 0) {
+            // "404 Not Found"
+            revert();
+        }
+        if (documentIndex[_documentHash].signatures.length == documentIndex[_documentHash].signatories.length) {
+            // Everyone has signed
             revert();
         }
         
         Document storage document = documentIndex[_documentHash];
 
-        if (documentIndex[_documentHash].sender == msg.sender && documentIndex[_documentHash].senderSigned == 0) {
-            document.senderSigned = now;
-            emit DocumentSigned(_documentHash, msg.sender);
-        } else if (documentIndex[_documentHash].recipient == msg.sender && documentIndex[_documentHash].recipientSigned == 0) {
-            document.senderSigned = now;
-            emit DocumentSigned(_documentHash, msg.sender);
-        } else {
-            // "401 Unauthorized"
-            revert();
+        for (uint i = 0; i < document.signatories.length; i++) {
+            if (document.signatories[i] == msg.sender) {
+              document.signatures.push(userIndex[msg.sender].signature);
+              emit DocumentSigned(_documentHash, msg.sender);
+              return;
+            }
         }
+
+        // "401 Unauthorized"
+        revert();
     }
 }

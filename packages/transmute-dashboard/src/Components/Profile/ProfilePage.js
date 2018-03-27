@@ -82,8 +82,8 @@ class ProfilePage extends React.Component {
 
 const mapStateToProps = (state) => {
   return {
-    error: state.profile.error,
-    success: state.profile.success
+    error: state.user.error,
+    success: state.user.success
   }
 };
 

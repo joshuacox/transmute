@@ -10,14 +10,15 @@ import { ToastContainer } from 'react-toastify';
 import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
 import { Security, Auth } from '@okta/okta-react';
 import { Provider } from 'react-redux';
-import { ConnectedRouter } from 'react-router-redux';
-import { store, history } from './store';
+import { Router } from 'react-router-dom';
+import { store } from './store';
 import theme from './theme';
+import { createBrowserHistory } from 'history';
+const history = createBrowserHistory();
 
 injectTapEventPlugin();
 
 const auth = new Auth({
-  history,
   issuer: config.issuer,
   client_id: config.client_id,
   redirect_uri: config.redirect_uri,
@@ -26,7 +27,7 @@ const auth = new Auth({
 
 ReactDOM.render(
   <Provider store={store}>
-    <ConnectedRouter history={history}>
+    <Router history={history}>
       <MuiThemeProvider theme={theme}>
         <div>
           <ToastContainer />
@@ -35,7 +36,7 @@ ReactDOM.render(
           </Security>
         </div>
       </MuiThemeProvider>
-    </ConnectedRouter>
+    </Router>
   </Provider>,
   document.getElementById('root')
 );
