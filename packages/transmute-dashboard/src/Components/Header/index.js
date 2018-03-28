@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import { connect } from 'react-redux';
 import AppBar from 'material-ui/AppBar';
 import IconButton from 'material-ui/IconButton';
 import IconMenu from 'material-ui/IconMenu';
@@ -6,35 +7,9 @@ import MenuItem from 'material-ui/MenuItem';
 import FlatButton from 'material-ui/FlatButton';
 import MoreVertIcon from 'material-ui/svg-icons/navigation/more-vert';
 import { withAuth } from '@okta/okta-react';
+import { logoutApiCall } from '../../actions/Session';
 
-class Login extends Component {
-  static muiName = 'FlatButton';
-
-  render() {
-    return (
-      <FlatButton {...this.props} href="/login" label="Login" />
-    );
-  }
-}
-
-const Logged = (props) => (
-  <IconMenu
-    {...props}
-    iconButtonElement={
-      <IconButton><MoreVertIcon /></IconButton>
-    }
-    targetOrigin={{ horizontal: 'right', vertical: 'top' }}
-    anchorOrigin={{ horizontal: 'right', vertical: 'top' }}
-  >
-    <MenuItem primaryText="Home" href="/" />
-    <MenuItem primaryText="Profile" href="/profile" />
-    {/* <MenuItem primaryText="Logout" onClick={props.auth.logout} /> */}
-  </IconMenu>
-);
-
-Logged.muiName = 'IconMenu';
-
-class Header extends React.Component {
+export default withAuth(class Header extends Component {
   constructor(props) {
     super(props);
     this.state = {
@@ -62,11 +37,21 @@ class Header extends React.Component {
       <div>
         <AppBar
           title="Title"
-          iconElementRight={this.state.authenticated ? <Logged /> : <Login />}
+          iconElementRight={this.state.authenticated ? 
+            <IconMenu
+              iconButtonElement={
+                <IconButton><MoreVertIcon /></IconButton>
+              }
+              targetOrigin={{ horizontal: 'right', vertical: 'top' }}
+              anchorOrigin={{ horizontal: 'right', vertical: 'top' }}
+            >
+              <MenuItem primaryText="Home" href="/" />
+              <MenuItem primaryText="Profile" href="/profile" />
+              <MenuItem primaryText="Debug" href="/debug" />
+              <MenuItem primaryText="Logout" onClick={this.props.auth.logout} />
+            </IconMenu> : <FlatButton onClick={this.props.auth.login} label="Login" />}
         />
       </div>
     );
   }
-}
-
-export default withAuth(Header);
+});

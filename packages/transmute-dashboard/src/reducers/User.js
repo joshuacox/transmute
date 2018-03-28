@@ -6,25 +6,25 @@ const initialState = {
   success: ''
 };
 
-const login = (state = initialState, action) => {
+const user = (state = initialState, action) => {
   switch (action.type) {
     case Constants.REGISTRATION_SUCCESS:
       return Object.assign({}, state, { error: null });
     case Constants.REGISTRATION_ERROR:
       return Object.assign({}, state, { error: action.payload });
-    case Constants.LOGOUT:
-      return Object.assign({}, state, { sessionToken: null, error: null });
     case Constants.LOGIN_ERROR:
       return Object.assign({}, state, { sessionToken: null, error: action.payload });
     case Constants.LOGIN_SUCCESS:
       return Object.assign({}, state, { sessionToken: action.payload, error: null });
-    case Constants.CHANGE_PASSWORD_SUCCESS:
-      return Object.assign({}, state, { error: null, success: action.payload });
-    case Constants.CHANGE_PASSWORD_ERROR:
-      return Object.assign({}, state, { error: action.payload, success: null });
+    case Constants.ACCESS_TOKEN_RECOVERED:
+      return Object.assign({}, state, { sessionToken: action.payload });
+    case Constants.LOGOUT_SUCCESS:
+      return Object.assign({}, state, { sessionToken: null, error: null });
+    case Constants.LOGOUT_ERROR:
+      return Object.assign({}, state, { error: action.payload });
     default:
       return state;
   }
 };
 
-export default login;
+export default user;

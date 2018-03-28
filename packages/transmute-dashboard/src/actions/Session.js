@@ -1,7 +1,27 @@
 import { Constants } from '../constants'
 
-export const logout = () => ({
-  type: Constants.LOGOUT
+export const onAccessTokenRecovered = (token) => ({
+  type: Constants.ACCESS_TOKEN_RECOVERED,
+  payload: token
+});
+
+export const logoutApiCall = (oktaAuth, email, password) => {
+  return dispatch => {
+    return oktaAuth.signOut().then(() => {
+      dispatch(logoutSuccess())
+    }).catch(err => {
+      dispatch(logoutError(err.message));
+    });
+  };
+};
+
+export const logoutError = (error) => ({
+  type: Constants.LOGOUT_ERROR,
+  payload: error
+});
+
+export const logoutSuccess = (error) => ({
+  type: Constants.LOGOUT_SUCCESS
 });
 
 export const loginError = (error) => ({

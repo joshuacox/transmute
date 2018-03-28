@@ -3,7 +3,6 @@ import transmute from './transmute-config';
 
 export default store => {
   setTimeout(async () => {
-    console.log('setting up transmute...');
     let web3, accounts, eventStoreAdapter;
 
     try {

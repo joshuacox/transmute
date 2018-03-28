@@ -1,12 +1,12 @@
 const Web3 = require('web3');
-const config = require('./config');
+const env = require('./src/env.json');
 
 module.exports = {
   migrations_directory: './migrations',
   networks: {
     development: {
       provider: new Web3.providers.HttpProvider(
-        config.web3Config.providerUrl
+        env.localhost.web3Config.providerUrl
       ),
       network_id: '*' // Match any network id
     },

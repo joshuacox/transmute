@@ -41,7 +41,7 @@ contract EthSigner {
         User storage user = userIndex[msg.sender];
         user.signature = _signature;
         
-        emit SignatureAdded(msg.sender, _signature);
+        SignatureAdded(msg.sender, _signature);
     }
 
     function getSignature(address _address) public view returns (bytes32) {
@@ -72,7 +72,7 @@ contract EthSigner {
             user.documents.push(_documentHash);
         }
 
-        emit DocumentCreated(_documentHash, _signatories);
+        DocumentCreated(_documentHash, _signatories);
     }
 
     function signDocument(bytes32 _documentHash) public {
@@ -94,7 +94,7 @@ contract EthSigner {
         for (uint i = 0; i < document.signatories.length; i++) {
             if (document.signatories[i] == msg.sender) {
               document.signatures.push(userIndex[msg.sender].signature);
-              emit DocumentSigned(_documentHash, msg.sender);
+              DocumentSigned(_documentHash, msg.sender);
               return;
             }
         }
