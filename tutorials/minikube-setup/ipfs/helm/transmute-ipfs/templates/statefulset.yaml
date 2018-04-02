@@ -55,6 +55,8 @@ spec:
       {{- if .Values.persistence.storageClass }}
       {{- if (eq "-" .Values.persistence.storageClass) }}
         storageClassName: ""
+      {{- if (eq "openebs-ipfs" .Values.persistence.storageClass) }}
+        storageClassName: "openebs-ipfs"
       {{- else }}
         storageClassName: "{{ .Values.persistence.storageClass }}"
       {{- end }}
