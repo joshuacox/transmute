@@ -63,6 +63,7 @@ vorpal
       else {
         var GenSSHKeys = false;
       }
+      aks.register
       aks.provision( myResourceGroup, myAKSCluster, myNodeCount, GenSSHKeys )
     } else if (args.options.aws) {
       //aws.provision()

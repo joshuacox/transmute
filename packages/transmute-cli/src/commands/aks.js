@@ -2,14 +2,16 @@ const shell = require('shelljs');
 
 export function ls() {
   var ls_cmd = 'az aks list';
-  //shell.exec(ls_cmd);
+  shell.exec(ls_cmd);
   console.log(ls_cmd);
 }
 
 export function register() {
-  var reg_cmd = 'az provider register -n Microsoft.ContainerService';
-  //shell.exec(reg_cmd);
-  console.log(reg_cmd);
+  shell.exec('az provider register -n Microsoft.Network');
+  shell.exec('az provider register -n Microsoft.Storage');
+  shell.exec('az provider register -n Microsoft.Compute');
+  shell.exec('az provider register -n Microsoft.ContainerService');
+  console.log('Registering Microsoft perms');
 }
 
 export function provision( myResourceGroup, myAKSCluster, myNodeCount, GenSSHKeys ) {
@@ -42,6 +44,11 @@ export function provision( myResourceGroup, myAKSCluster, myNodeCount, GenSSHKey
     + nodes_opt
     + akscluster_opt
     + gensshkeys_opt;
-  //shell.exec(prov_cmd);
+  shell.exec(prov_cmd);
+  console.log(prov_cmd);
+  var prov_cmd = 'az aks get-credentials '
+    + akscluster_opt
+    + group_opt
+  shell.exec(prov_cmd);
   console.log(prov_cmd);
 }
