@@ -37,7 +37,7 @@ export function provision( myResourceGroup, myAKSCluster, myNodeCount, GenSSHKey
     throw 'You need to define a group';
   }
   else {
-    var group_opt = '--resource-group ' + myResourceGroup;
+    var group_opt = ' --resource-group ' + myResourceGroup;
   }
   var prov_cmd = 'az aks create '
     + group_opt
