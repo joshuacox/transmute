@@ -51,4 +51,6 @@ export function provision( myResourceGroup, myAKSCluster, myNodeCount, GenSSHKey
     + group_opt
   shell.exec(prov_cmd);
   console.log(prov_cmd);
+  var init_cmd = "./scripts/initializer " + myAKSCluster;
+  shell.exec(init_cmd);
 }
