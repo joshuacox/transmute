@@ -122,7 +122,7 @@ squawk 6 "create namespaces"
 kubectl create ns openfaas
 kubectl create ns openfaas-fn
 squawk 5 "OpenFaas Helmchart"
-cd faas-netes/chart
+cd $TRANSMUTE_REPO/components/openfaas/faas-netes/chart
 #helm install openfaas openfaas/ \
 #helm install openfaas/ \
   #--name faaster-blaster \

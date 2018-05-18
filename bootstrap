@@ -590,14 +590,13 @@ fi
 # however this will
 if [ -e "$TRANSMUTE_REPO" ]; then
   echo "$TRANSMUTE_REPO exists already, proceeding"
-  set +e
   cd $TRANSMUTE_DIR/git
   echo 'Updating the transmute repo'
   cd $TRANSMUTE_REPO
   git fetch --tags
   git checkout $TRANSMUTE_RELEASE
+  git submodule update --init
   cd $CWD
-  set -e
 else
   cd $TRANSMUTE_REPO
   echo 'Cloning the latest transmute repo'
@@ -606,6 +605,7 @@ else
   cd $TRANSMUTE_DIR/git/transmute
   git fetch --tags
   git checkout $TRANSMUTE_RELEASE
+  git submodule update --init
   cd $CWD
 fi
 
