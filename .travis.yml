@@ -25,10 +25,10 @@ matrix:
           - $HOME/.transmute/bin
           - $HOME/.local/bin
           - $HOME/.minikube
-          - $HOME/.kube
           - $HOME/.nvm
-          - /usr/local
           - .git
+            #- /usr/local
+            #- $HOME/.kube
 #    - os: osx
 #      osx_image: xcode8.3
 #      language: bash
