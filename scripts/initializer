@@ -93,10 +93,7 @@ kubectl apply -f https://raw.githubusercontent.com/openebs/openebs/master/k8s/op
 #kubectl create secret generic acme-account --from-literal=ACME_EMAIL=$ACME_EMAIL
 
 # test tiller
-kubectl get pods -n kube-system
-sleep 10
-kubectl get pods -n kube-system
-sleep 10
+sleep 5
 kubectl get pods -n kube-system
 
 squawk 5 "Ganache-cli"
