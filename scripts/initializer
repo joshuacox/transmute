@@ -235,7 +235,7 @@ if [[ "$DO_JWT_DL" == 'y' ]]; then
 
   # How to delete a plugin.
   # Get the plugin id from the api
-  # curl -k -X GET $KONG_ADMIN_URL/apis/ipfs/plugins 
+  # curl -k -X GET $KONG_ADMIN_URL/apis/ipfs/plugins
   # Delete it from the api
   # curl -k -X DELETE $KONG_ADMIN_URL/apis/ipfs/plugins/e9522844-ef05-45b1-b3fa-09f380d4c0ec
 
@@ -246,7 +246,7 @@ if [[ "$DO_JWT_DL" == 'y' ]]; then
       | jq -r '.id')
 
   squawk 5 "Download JWT Signing Key"
-  squawk 3  'Download JWT Signing Key'
+  squawk 3 'Download JWT Signing Key'
   squawk 3 'Using vox'
   node ./scripts/okta/write-okta-pem.js
 
