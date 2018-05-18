@@ -27,7 +27,7 @@ bail () {
   exit 1
 }
 
-speaker 'Welcome to transmute'
+speaker 'Welcome to Transmute'
 speaker 'Should I continue speaking? (y or n)'
 
 read -p '[yn]' USE_VOX
