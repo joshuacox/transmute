@@ -60,7 +60,7 @@ $TRANSMUTE_REPO/w8s/kube-dns.w8
 sleep 5
 # Apply rbac for tiller
 squawk 5 'create tiller service account'
-kubectl create serviceaccount tiller --namespace kube-system
+kubectl create --save-config serviceaccount tiller --namespace kube-system
 squawk 5 'create tiller rbac config'
 kubectl apply -f $TRANSMUTE_REPO/components/helm/rbac-tiller-config.yaml
 
