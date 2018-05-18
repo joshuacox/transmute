@@ -162,7 +162,7 @@ squawk 1 "GANACHE_CLUSTER_IP $GANACHE_CLUSTER_IP"
 countzero=0
 squawk 1 "Waiting for ganache to launch on $KONG_ADMIN_URL..."
 while ! nc -z $KONG_HOST $KONG_PORT; do
-    if [[ "$countzero" -gt 400 ]]; then
+    if [[ "$countzero" -gt 600 ]]; then
       echo 'timeout'
       exit 1
     fi
